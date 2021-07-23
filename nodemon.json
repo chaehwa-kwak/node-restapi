@@ -1,0 +1,15 @@
+{
+  "verbose": true,
+  "ignore": ["node_modules", ".next"],
+  "watch": [
+    "node_common/**/*",
+    "common/**/*",
+    "components/**/*",
+    "scenes/**/*",
+    "pages/**/*",
+    "public/**/*",
+    "index.js",
+    "server.js"
+  ],
+  "ext": "js json"
+}

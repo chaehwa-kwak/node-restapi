@@ -1,0 +1,500 @@
+openapi: 3.0.0
+info:
+  swagger: '2.0'
+  version: '1.0.0'
+  title: 'O2-myLink API'
+  description: 'O2-myLink API is an API Server for a IPFS service to publish excellent mobile page and its editing mobile app.'
+servers:
+  - description: O2-myLink API 
+    url: http://localhost:8080
+host: "localhost"
+basePath: "/v1/o2"
+tags:
+- name: "O2-myLink"
+  description: "O2-myLink API"
+- name: "O2-Plus-myLink"
+  description: "O2-myLink Plus API"
+schemes:
+- "http"    
+paths:
+  /v1/o2:
+    get:
+      tags:
+      - "O2-myLink"
+      summary: 전체 목록 조회
+      description: ""
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+  /v1/o2/upload:
+    post:
+      tags:
+      - "O2-myLink"
+      summary: 압축파일(.zip) 업로드 
+      description: ""
+      produces:
+      - "application/json"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "400":
+          description: "Bad request parameter"
+        "404":
+          description: "Not found"
+        "409":
+          description: "Already exist"      
+        "500":
+          description: "Internal Exception"         
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+
+  /v1/o2/{appId}:
+    get:
+      tags:
+      - "O2-myLink"
+      summary: 선택 appId 값 정보 조회 
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appId"
+        in: "path"
+        description: "appId"
+        required: true
+        type: "String"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"                          
+    put:
+      tags:
+      - "O2-myLink"
+      summary: 선택 appId 값 수정 업로드 
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appId"
+        in: "path"
+        description: "appId"
+        required: true
+        type: "String"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary        
+      responses:
+        "400":
+          description: "Bad request parameter"
+        "404":
+          description: "Not found"
+        "409":
+          description: "Already exist"      
+        "500":
+          description: "Internal Exception"         
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32" 
+    delete:
+      tags:
+      - "O2-myLink"
+      summary: 선택 appId 값 삭제
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appId"
+        in: "path"
+        description: "appId"
+        required: true
+        type: "String"
+      responses:
+        "400":
+          description: "Bad request parameter"
+        "404":
+          description: "Not found"
+        "409":
+          description: "Already exist"      
+        "500":
+          description: "Internal Exception"      
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+  /v1/o2plus:
+    get:
+      tags:
+      - "O2-Plus-myLink"
+      summary: 전체 목록 조회
+      description: ""
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"             
+
+  /v1/o2plus/upload:
+    post:
+      tags:
+      - "O2-Plus-myLink"
+      summary: 파일 업로드 
+      description: ""
+      produces:
+      - "application/json"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "400":
+          description: "Bad request parameter"
+        "404":
+          description: "Not found"
+        "409":
+          description: "Already exist"      
+        "500":
+          description: "Internal Exception"         
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+
+
+  /v1/o2plus/cid/{cid}:
+    get:
+      tags:
+      - "O2-Plus-myLink"
+      summary: cid값으로 검색된 app 정보 조회 
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cid"
+        in: "path"
+        description: "cid"
+        required: true
+        type: "String"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"                 
+
+  /v1/o2plus/{appId}:
+    get:
+      tags:
+      - "O2-Plus-myLink"
+      summary: 선택 appId 값 정보 조회 
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appId"
+        in: "path"
+        description: "appId"
+        required: true
+        type: "String"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"                          
+    put:
+      tags:
+      - "O2-Plus-myLink"
+      summary: 선택 appId 값 수정 업로드 
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appId"
+        in: "path"
+        description: "appId"
+        required: true
+        type: "String"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary        
+      responses:
+        "400":
+          description: "Bad request parameter"
+        "404":
+          description: "Not found"
+        "409":
+          description: "Already exist"      
+        "500":
+          description: "Internal Exception"         
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32" 
+    delete:
+      tags:
+      - "O2-Plus-myLink"
+      summary: 선택 appId 값 삭제
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appId"
+        in: "path"
+        description: "appId"
+        required: true
+        type: "String"
+      responses:
+        "400":
+          description: "Bad request parameter"
+        "404":
+          description: "Not found"
+        "409":
+          description: "Already exist"      
+        "500":
+          description: "Internal Exception"      
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+
+
+  /v1/o2plus/filecoin/save:
+    post:
+      tags:
+      - "O2-Plus-myLink"
+      summary: lotus를 통해 파일 Deal 요청(전체 파라메터용) 
+      description: ""
+      produces:
+      - "application/json"
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                cid:
+                  type: string
+                minerId:
+                  type: string
+                dealPeriod:
+                  type: string
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"                          
+
+  /v1/o2plus/filecoin/save/cid/{cid}:
+    post:
+      tags:
+      - "O2-Plus-myLink"
+      summary: lotus를 통해 파일 Deal 요청(cid용) 
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cid"
+        in: "path"
+        description: "cid"
+        required: true
+        type: "String"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"                          
+
+
+
+  /v1/o2plus/filecoin/retrieve:
+    post:
+      tags:
+      - "O2-Plus-myLink"
+      summary: lotus 를 통해 file 회수 요청(전체 파라메터용) 
+      description: ""
+      produces:
+        - application/json
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                cid:
+                  type: string
+                minerId:
+                  type: string                
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"               
+
+  /v1/o2plus/filecoin/retrieve/cid/{cid}:
+    get:
+      tags:
+      - "O2-Plus-myLink"
+      summary: lotus 를 통해 file 회수 요청(cid용) 
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "cid"
+        in: "path"
+        description: "cid"
+        required: true
+        type: "String"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"               
+
+
+
+  /v1/o2plus/filecoin/miner:
+    post:
+      tags:
+      - "O2-Plus-myLink"
+      summary: minerID 등록
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                minerId:
+                  type: string
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"  
+    get:
+      tags:
+      - "O2-Plus-myLink"
+      summary: minerID 리스트 조회 
+      description: ""
+      parameters: []                  
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"                                
+
+  /v1/o2plus/filecoin/miner/{minerId}:
+    delete:
+      tags:
+      - "O2-Plus-myLink"
+      summary: 선택 minerId 값 삭제
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "minerId"
+        in: "path"
+        description: "minerId"
+        required: true
+        type: "String"
+      responses:
+        "400":
+          description: "Bad request parameter"
+        "404":
+          description: "Not found"
+        "409":
+          description: "Already exist"      
+        "500":
+          description: "Internal Exception"      
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+                      

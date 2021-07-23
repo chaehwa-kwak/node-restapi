@@ -1,0 +1,214 @@
+<%
+const isEmpty = (string) => {
+  // NOTE(jim): This is not empty when its coerced into a string.
+  if (string === 0) {
+    return false;
+  }
+
+  if (!string) {
+    return true;
+  }
+
+  if (typeof string === "object") {
+    return true;
+  }
+
+  if (string.length === 0) {
+    return true;
+  }
+
+  string = string.toString();
+
+  return !string.trim();
+};
+%> 
+
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<title><%= app.title %></title>                                                                <!-- 문서 제목(변경 필요) -->
+<!-- 메타태그 -->
+<meta name="robots" content="all" />
+<meta name="author" content="<%= app.author %>" />
+<meta name="keyword" content="<%= app.keyword %>" />
+<meta name="description" content="<%= app.description %>" />
+<!-- openGraph기반의 sns들을 위한 정보 입력 -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="<%= app.title %>" />                                             <!-- sns 공유시 들어갈 페이지 제목 -->
+<meta property="og:url" content="https://nchime.github.io/mylink/01055232474" />                          <!-- sns 공유시 들어갈 URL -->
+<meta property="og:description" content="<%= app.description %>" />                                       <!-- 공유 시 출력 될 페이지 설명 -->
+<meta name="format-detection" content="telephone=no" />
+<meta property="og:image" content="https://nchime.github.io/mylink/images/1512909665615-448.jpg" />                                             <!-- 공유 시 출력 될 이미지(1200x630 / 600x315) -->
+
+<link rel="stylesheet" type="text/css" href="https://nchime.github.io/mylink/css/slick.css">                                <!-- slick.js css -->
+<link rel="stylesheet" type="text/css" href="https://nchime.github.io/mylink/css/jquery.fullpage.css">                      <!-- fullpage.js css -->
+<link rel="stylesheet" type="text/css" href="https://nchime.github.io/mylink/css/page.css">                                 <!-- page style -->
+<link rel="icon" href="https://nchime.github.io/mylink/images/favicon.ico" type="image/x-icon" />
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.3.min.js"></script>  <!-- jquery 1.x(정식 서비스시 경로 변경 필요) -->
+<script src="https://developers.kakao.com/sdk//js/kakao.min.js"></script>
+<script src="https://nchime.github.io/mylink/js/jquery.fullpage.js"></script>                                       <!-- fullpage.js -->
+<script src="https://nchime.github.io/mylink/js/slick.min.js"></script>                                             <!-- slick.js -->
+<script src="https://nchime.github.io/mylink/js/clipboard.min.js"></script>                                         <!-- clipboard.js -->
+
+
+<script src="https://nchime.github.io/mylink/js/page.js"></script>                                                  <!-- page.js(본 페이지의 js) -->
+<!-- <script src="./js/pageAction.js"></script> -->                                             <!-- pageAction.js(본 페이지의 Action js) -->
+<!-- <script src="https://nchime.github.io/mylink/js/jquery.fancybox.min.js"></script>  -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    $(window).on("orientationchange",function(){
+      if(window.orientation == 0){// Portrait
+        $('#landscape').removeClass('active');
+        window.location.reload();
+      }
+      else{// Landscape
+        $('#landscape').addClass('active');
+      }
+    });
+    
+    $('.HeightAuto').css('height' ,  $(window).height() );
+    $(window).resize(function() {
+      $('.HeightAuto').css('height' ,  $(window).height() );
+    });
+
+  }); 
+</script>
+
+
+
+ 
+</head>
+<body>
+    <div class="landscape-cover HeightAuto" id="landscape">
+        <div class="landscape-cover-inner">
+          <div class="icon"></div>
+          <p>해당 사이트는 세로 모드에 최적화되어 있습니다</p>
+        </div>
+     </div>
+<div id="fWrap" data-status="loading" data-startpos="1">
+  <div id="header">
+    <div class="wrap_header">
+      <h1>
+        <%= app.title %>
+      </h1>
+    </div>
+  </div>
+  <!-- #header -->
+  <div id="mainMenu">
+    <div class="bg"></div>
+    <div class="wrap_menu">
+      <nav>
+        <ul>
+          <li class="toggle">
+            <button class="btn_comm btn_toggle" type="button"><img src="https://nchime.github.io/mylink/images/icon/icon-menu.png" alt="메뉴"></button>
+          </li>
+          <li class="share">
+            <button class="btn_comm btn_share" type="button">
+              <img src="https://nchime.github.io/mylink/images/icon/icon-share.png" alt="공유">
+            </button>
+            <div class="sub">
+              <div>
+                <button class="btn_comm btn_band" type="button" onclick="sendSns('band', '<%= app.homeUrl %>', '<%= app.title %>')"><img src="https://nchime.github.io/mylink/images/icon/icon-band.png" alt="밴드로 공유하기"></button>
+                <button class="btn_comm btn_kakao" type="button" onclick="sendKakaoTalk('https://localhost/01055232474', '<%= app.title %>', 'https://nchime.github.io/mylink/images/img-1.jpg')"><img src="https://nchime.github.io/mylink/images/icon/icon-kakao.png" alt="카카오 톡으로 공유하기"></button>
+                <button class="btn_comm btn_twitter" type="button" onClick="location.href='https://twitter.com/intent/tweet?text=<%= app.title %>&url=<%= app.homeUrl %>'"><img src="https://nchime.github.io/mylink/images/icon/icon-twitter.png" alt="트위터로 공유하기"></button>
+                <button class="btn_comm btn_facebook" type="button" onClick="location.href='https://www.facebook.com/sharer/sharer.php?u=<%= app.homeUrl %>'"><img src="https://nchime.github.io/mylink/images/icon/icon-facebook.png" alt="페이스북으로 공유하기"></button>
+                <button class="btn_comm btn_url" type="button"  data-clipboard-text="<%= app.homeUrl %>" data-clipboard-msg="url이 복사 되었습니다! 붙여 넣기로 공유해주세요" ><img src="https://nchime.github.io/mylink/images/icon/icon-url.png" alt="url로 공유하기"></button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <!-- // #mainMenu -->
+  <div class="loading">
+    <div class="icon"></div>
+  </div>
+  <!-- // .loading(미사용 시 제거) -->
+<div class="cursor">
+    <span class="top"></span>
+    <span class="bottom"></span>
+  </div>
+
+  <div id="container">
+
+<%
+    for(var i=0; i< app.slide.length; i++) {
+%>
+    <div class="section">
+      <ul class="wrap_images">
+<%
+      for(var j=0; j< app.slide[i].card.length; j++) {
+        
+        if( app.slide[i].card[j].file_type === "video") { 
+%> 
+            <li class="type-normal" media-type="video">
+              <button class="btn_comm btn_play" type="button"></button>
+              <img class="thumb" src="">
+                  <video preload="metadata" loop="loop" playsinline>
+                      <source src="<%=app.slide[i].card[j].filename%>" type="video/mp4">
+                  </video> 
+            </li>      
+<%
+        } else {  
+
+          var EFFECT_CLASS = "type-normal"; 
+          var EFFECT_TYPE = ""; 
+          if (app.slide[i].card[j].effect_type === "tilt") { 
+            EFFECT_CLASS = "type-wide"; 
+            EFFECT_TYPE = "tilt";             
+          } else if (app.slide[i].card[j].effect_type === "kenBurn") {   
+            EFFECT_CLASS = "type-normal"; 
+            EFFECT_TYPE = "kenBurn";             
+          }
+%>
+            <li  class="<%=EFFECT_CLASS%>" effect-type="<%=EFFECT_TYPE%>">
+              <img src="<%=app.slide[i].card[j].filename%>">  
+                <div class="content"> 
+<%
+          let msg = "";
+          if(! isEmpty(app.slide[i].card[j].msg)) msg = app.slide[i].card[j].msg;
+              if( msg.replace(/^\s+|\s+$/g,"") !== "" ) {
+                    if ( app.slide[i].card[j].msg_type === "bottom") {
+%>
+                              <div class="body_msg_bottom">
+                                <%-app.slide[i].card[j].msg%>
+                              </div>
+<%
+              } else if(app.slide[i].card[j].msg_type === "top" ) {
+%>
+                                <div class="body_msg_top">
+                                  <%-app.slide[i].card[j].msg%>
+                                </div>
+<%
+              } else {
+%>
+                                <div class="body_msg_middle">
+                                  <%-app.slide[i].card[j].msg%>
+                                </div>
+<%
+                }
+          }
+%>                  
+
+                </div>      
+              </li>
+<%
+        }
+      }
+%>
+      </ul>
+  </div>
+<%
+
+   } 
+%>
+
+  </div>
+</div>
+</body>
+</html>
